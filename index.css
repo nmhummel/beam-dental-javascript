@@ -1,6 +1,10 @@
 body {
     background-color: white;
     font-size: 20px;
-    font-family: lemon milk;
+    font-family: sans-serif, lemon milk;
     color: darkblue;
+}
+
+.member {
+    list-style: none;
 }
