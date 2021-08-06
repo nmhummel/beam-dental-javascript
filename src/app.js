@@ -3,46 +3,57 @@
 const mainBody = document.querySelector(".main")
 const familyMembers = document.querySelector(".family-members")
 const BASE_URL = 'https://beamtech.github.io/boxing-kata-js/perks.json';
+// don't need these if we use destructured ones below -kb
+// let blueBrushes = 0;
+// let pinkBrushes = 0;
+// let greenBrushes = 0;
 
-document.addEventListener("DOMContentLoaded", () => {
-    //createColors();
-})
-
-let allMembers = {}
-
-let getFamily = () => {
-    fetch(BASE_URL)
-    .then(resp => resp.json())
-    .then(orders => createColors(orders))         
-    .catch((error) => { alert(error.message) })
-}
-
-
-let blueBrushes = 0;
-let pinkBrushes = 0;
-let greenBrushes = 0;
-
-let createColors = (orders) => {
-    console.log("orders", orders)
-    orders.map(person => {
-        console.log("person", person)
-        if (person.brush_color === "green") {
-            //debugger
-            return greenBrushes++
-        } else if (person.brush_color === "pink") {
-            return pinkBrushes++
-        } else {
-            return blueBrushes++
-        }
-    })
-} 
-
-let totalBrushes = blueBrushes + pinkBrushes + greenBrushes;
+// same as above, just destructuring here for fun to see if it would work and it did yay!: -kb
+let [greenBrushes, pinkBrushes, blueBrushes, totalBrushes] = [0, 0, 0]
 let replacementHeads = totalBrushes;
 let starterBoxes = Math.ceil((totalBrushes + replacementHeads) / 4)
 let refillBoxes = 0;
 
-console.log("pinkBrushes", pinkBrushes)
+document.addEventListener("DOMContentLoaded", () => {
+    getFamily()
+})
+
+let allMembers = {}
+
+function getFamily(){
+    fetch(BASE_URL)
+    .then(resp => resp.json())
+    .then(orders => {
+        debugger
+        createColors(orders)
+    })         
+    .catch((error) => { alert(error.message) })
+}
+
+const createColors = (orders) => {
+    orders.map(person => {
+        if (person.brush_color === "green") {
+            greenBrushes+=1
+        } else if (person.brush_color === "pink") {
+            pinkBrushes++
+        } else {
+            blueBrushes++
+        }
+
+    })
+    // totaled this up here because otherwise, it was not updating propery
+    // run the code and look at console log and you will see that the order it is being run 
+    // is not what we expected because we are calling createColors from inside of fetch request and it is asyn -kb
+    totalBrushes = blueBrushes + pinkBrushes + greenBrushes
+    // these run after we call createColors: -kb
+    console.log(totalBrushes)
+    console.log('green:', greenBrushes, 'pink:', pinkBrushes, 'blue:', blueBrushes)
+} 
+
+// these run as soon as content is loaded when variables are declared but not yet assigned a value -kb
+console.log(totalBrushes)
+console.log('green:', greenBrushes, 'pink:', pinkBrushes, 'blue:', blueBrushes)
+
 
        // `
         // <ul>
@@ -55,5 +66,5 @@ console.log("pinkBrushes", pinkBrushes)
         // `
     
 
-
-getFamily();
+// moved this to DOMContentLoaded at the top to run right away -kb
+// getFamily();
