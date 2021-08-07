@@ -1,17 +1,12 @@
 //import RefillBoxes from "./views/pages/RefillBoxes";
 
 const mainBody = document.querySelector(".main")
-const familyMembers = document.querySelector(".family-members")
+const starterSummary = document.querySelector(".starter-summary")
+const refillSummary = document.querySelector(".refill-summary")
 const BASE_URL = 'https://beamtech.github.io/boxing-kata-js/perks.json';
-// don't need these if we use destructured ones below -kb
-// let blueBrushes = 0;
-// let pinkBrushes = 0;
-// let greenBrushes = 0;
 
-// same as above, just destructuring here for fun to see if it would work and it did yay!: -kb
-let [greenBrushes, pinkBrushes, blueBrushes, totalBrushes] = [0, 0, 0]
-let replacementHeads = totalBrushes;
-let starterBoxes = Math.ceil((totalBrushes + replacementHeads) / 4)
+let [greenBrushes, pinkBrushes, blueBrushes, totalColors] = [0, 0, 0]
+let starterBoxes = 0;
 let refillBoxes = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -24,7 +19,7 @@ function getFamily(){
     fetch(BASE_URL)
     .then(resp => resp.json())
     .then(orders => {
-        debugger
+        //debugger
         createColors(orders)
     })         
     .catch((error) => { alert(error.message) })
@@ -41,18 +36,50 @@ const createColors = (orders) => {
         }
 
     })
-    // totaled this up here because otherwise, it was not updating propery
-    // run the code and look at console log and you will see that the order it is being run 
-    // is not what we expected because we are calling createColors from inside of fetch request and it is asyn -kb
-    totalBrushes = blueBrushes + pinkBrushes + greenBrushes
-    // these run after we call createColors: -kb
-    console.log(totalBrushes)
-    console.log('green:', greenBrushes, 'pink:', pinkBrushes, 'blue:', blueBrushes)
+
+    totalColors = blueBrushes + pinkBrushes + greenBrushes
+    let replacementHeads = totalColors;
+    refillBoxes = Math.ceil(totalColors / 4)
+    starterBoxes = Math.ceil((totalColors + replacementHeads) / 4)
+
+    console.log("starterBoxes", starterBoxes)
+    console.log("refill boxes", refillBoxes) // 4th - 2
+    console.log("totalColors", totalColors)  // 5th - 5
+    console.log('green:', greenBrushes, 'pink:', pinkBrushes, 'blue:', blueBrushes)  // 6th - 2,1,2
+
+    starterSummary.innerHTML = `
+  
+    <p class="member">
+       <u>SUMMARY:</u>
+        <br>Starter Boxes: ${starterBoxes}
+        <br>Brushes: ${totalColors}
+        <br>Rebrlacement Heads: ${replacementHeads}
+    </p>
+
+    <ul>
+        <li class="pink">${pinkBrushes} brushes</li>
+        <li class="pink">${pinkBrushes} replacement heads</li>
+    </ul>
+
+    <ul>
+        <li class="blue">${blueBrushes} brushes</li>
+        <li class="blue">${blueBrushes} replacement heads</li>
+    </ul>
+    
+    <ul>
+        <li class="green">${greenBrushes} brushes</li>
+        <li class="green">${greenBrushes} replacement heads</li>
+    </ul>
+    
+    
+    `
+
+{/* <img src="blue bullet.png"> */}
 } 
 
-// these run as soon as content is loaded when variables are declared but not yet assigned a value -kb
-console.log(totalBrushes)
-console.log('green:', greenBrushes, 'pink:', pinkBrushes, 'blue:', blueBrushes)
+console.log("totalColors", totalColors) // 1st - undefined
+console.log('green:', greenBrushes, 'pink:', pinkBrushes, 'blue:', blueBrushes)  // 2nd - 0,0,0
+console.log("starterBoxes", starterBoxes) // 3rd - 0
 
 
        // `
@@ -65,6 +92,3 @@ console.log('green:', greenBrushes, 'pink:', pinkBrushes, 'blue:', blueBrushes)
         // </ul>
         // `
     
-
-// moved this to DOMContentLoaded at the top to run right away -kb
-// getFamily();

@@ -8,3 +8,29 @@ body {
 .member {
     list-style: none;
 }
+
+ul {
+    list-style: none;
+}
+
+.pink::before {
+    content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+    color: #e92fac; /* Change the color */
+    font-weight: bold; /* If you want it to be bold */
+    display: inline-block; /* Needed to add space between the bullet and the text */
+    width: 1em; /* Also needed for space (tweak if needed) */
+    margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
+
+.blue {
+    background: url("bluebullet.png") no-repeat top left;
+    background-position: 0 5px;
+    line-height: 1.5625;
+    padding: 0 0 4px 30px;
+    margin-left: 1em;
+}
+
+li .green {
+    list-style-type: disc;
+
+}
